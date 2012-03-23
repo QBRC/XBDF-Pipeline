@@ -1,0 +1,7 @@
+- title "Edit #{@run.command.name}"
+= render 'form'
+
+%p
+  = link_to "Show", job_run_path(@job, @run)
+  |
+  = link_to "View All", job_runs_path

@@ -1,0 +1,31 @@
+- title "Runs"
+
+%table
+  %tr
+    %th Command
+    %th Job
+    %th Waiting on run
+    %th Torque job
+    %th Xml data
+    %th Command string
+    %th Torque status
+    %th Cpu time
+    %th Started at
+    %th Ended at
+  - for run in @runs
+    %tr
+      %td= run.command_id
+      %td= run.job_id
+      %td= run.waiting_on_run_id
+      %td= run.torque_job_id
+      %td= run.xml_data
+      %td= run.command_string
+      %td= run.torque_status
+      %td= run.cpu_time
+      %td= run.started_at
+      %td= run.ended_at
+      %td= link_to 'Show', job_run_path(@job, run)
+      %td= link_to 'Edit', edit_job_run_path(@job, run)
+      %td= link_to 'Destroy', job_run_path(@job, run), :confirm => 'Are you sure?', :method => :delete
+
+%p= link_to "New Run", new_job_run_path

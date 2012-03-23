@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' value='text/html;charset=utf8'>
+  <meta name='generator' value='Ronn/v0.7.3 (http://github.com/rtomayko/ronn/tree/0.7.3)'>
+  <title>cufflinks(1) - Cufflinks</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+</head>
+<!--
+  The following styles are deprecated and will be removed at some point:
+  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
+
+  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
+  .man-navigation should be used instead.
+-->
+<body id='manpage'>
+  <div class='mp' id='man'>
+
+  <div class='man-navigation' style='display:none'>
+    <a href="#NAME">NAME</a>
+    <a href="#DESCRIPTION">DESCRIPTION</a>
+    <a href="#OPTIONS">OPTIONS</a>
+  </div>
+
+  <ol class='man-decor man-head man head'>
+    <li class='tl'>cufflinks(1)</li>
+    <li class='tc'></li>
+    <li class='tr'>cufflinks(1)</li>
+  </ol>
+
+  <h2 id="NAME">NAME</h2>
+<p class="man-name">
+  <code>cufflinks</code> - <span class="man-whatis">Cufflinks</span>
+</p>
+
+<h2 id="DESCRIPTION">DESCRIPTION</h2>
+
+<p>  Cufflinks assembles transcripts, estimates their abundances, and tests for differential expression and regulation in RNA-Seq samples. It accepts aligned RNA-Seq reads and assembles the alignments into a parsimonious set of transcripts. Cufflinks then estimates the relative abundances of these transcripts based on how many reads support each one, taking into account biases in library preparation protocols.
+Cufflinks is a collaborative effort between the Laboratory for Mathematical and Computational Biology, led by Lior Pachter at UC Berkeley, Steven Salzberg's group at the University of Maryland Center for Bioinformatics and Computational Biology, and Barbara Wold's lab at Caltech.
+Cufflinks is provided under the OSI-approved Boost License. More information at http://cufflinks.cbcb.umd.edu/</p>
+
+<h2 id="OPTIONS">OPTIONS</h2>
+
+<dl>
+<dt><code>$1</code>, <code>aligned_reads</code> <var>filepath</var></dt><dd>A file of RNA-Seq read alignments in the SAM format. SAM is a standard short read alignment, that allows aligners to attach custom tags to individual alignments, and Cufflinks requires that the alignments you supply have some of these tags. Please see http://cufflinks.cbcb.umd.edu/manual.html#input for more details. [****]</dd>
+<dt><code>--help</code>, <code>help</code> <var>boolean</var></dt><dd>Prints the help message and exits</dd>
+<dt><code>--num-threads</code>, <code>num-threads</code> <var>int</var></dt><dd>Use this many threads to align reads. The default is 1. [<strong>1</strong>]</dd>
+<dt><code>--GTF</code>, <code>GTF</code> <var>filepath</var></dt><dd>Tells Cufflinks to use the supplied reference annotation (a GFF file) to estimate isoform expression. It will not assemble novel transcripts, and the program will ignore alignments not structurally compatible with any reference transcript. Input is of the type [****]</dd>
+<dt><code>--GTF-guide</code>, <code>GTF-guide</code> <var>filepath</var></dt><dd>Tells Cufflinks to use the supplied reference annotation (GFF) to guide RABT assembly. Reference transcripts will be tiled with faux-reads to provide additional information in assembly. Output will include all reference transcripts as well as any novel genes and isoforms that are assembled. [****]</dd>
+<dt><code>--mask-file</code>, <code>mask-file</code> <var>filepath</var></dt><dd>Tells Cufflinks to ignore all reads that could have come from transcripts in this GTF file. We recommend including any annotated rRNA, mitochondrial transcripts other abundant transcripts you wish to ignore in your analysis in this file. Due to variable efficiency of mRNA enrichment methods and rRNA depletion kits, masking these transcripts often improves the overall robustness of transcript abundance estimates.</dd>
+<dt><code>--frag-bias-correct</code>, <code>frag-bias-correct</code> <var>filepath</var></dt><dd>Providing Cufflinks with a multifasta file via this option instructs it to run our new bias detection and correction algorithm which can significantly improve accuracy of transcript abundance estimates. See How Cufflinks Works for more details. [****]</dd>
+<dt><code>--multi-read-correct</code>, <code>multi-read-correct</code> <var>boolean</var></dt><dd>Tells Cufflinks to do an initial estimation procedure to more accurately weight reads mapping to multiple locations in the genome. See How Cufflinks Works for more details.</dd>
+<dt><code>--library-type</code>, <code>library-type</code> <var>string</var></dt><dd>TopHat will treat the reads as strand specific. Every read alignment will have an XS attribute tag. Consider supplying library type options below to select the correct RNA-seq protocol.
+fr-unstranded: Standard Illumina. Reads from the left-most end of the fragment (in transcript coordinates) map to the transcript strand, and the right-most end maps to the opposite strand.
+fr-firststrand: dUTP, NSR, NNSR. Same as above except we enforce the rule that the right-most end of the fragment (in transcript coordinates) is the first sequenced (or only sequenced for single-end reads). Equivalently, it is assumed that only the strand generated during first strand synthesis is sequenced.
+fr-secondstrand: Ligation, Standard SOLiD. Same as above except we enforce the rule that the left-most end of the fragment (in transcript coordinates) is the first sequenced (or only sequenced for single-end reads). Equivalently, it is assumed that only the strand generated during second strand synthesis is sequenced. [****]</dd>
+<dt><code>--frag-len-mean</code>, <code>frag-len-mean</code> <var>integer</var></dt><dd>This is the expected (mean) fragment length. The default is 200bp. Note: Cufflinks now learns the fragment length mean for each SAM file, so using this option is no longer recommended with paired-end reads. [<strong>200</strong>]</dd>
+<dt><code>--frag-len-std-dev</code>, <code>frag-len-std-dev</code> <var>integer</var></dt><dd>The standard deviation for the distribution on fragment lengths. The default is 80bp. Note: Cufflinks now learns the fragment length standard deviation for each SAM file, so using this option is no longer recommended with paired-end reads. [<strong>80</strong>]</dd>
+<dt><code>--upper-quartile-norm</code>, <code>upper-quartile-norm</code> <var>boolean</var></dt><dd>With this option, Cufflinks normalizes by the upper quartile of the number of fragments mapping to individual loci instead of the total number of sequenced fragments. This can improve robustness of differential expression calls for less abundant genes and transcripts.</dd>
+<dt><code>--total-hits-norm</code>, <code>total-hits-norm</code> <var>boolean</var></dt><dd>With this option, Cufflinks counts all fragments, including those not compatible with any reference transcript, towards the number of mapped hits used in the FPKM denominator. This option can be combined with -N/--upper-quartile-norm. It is active by default. [<strong>true</strong>]</dd>
+<dt><code>--compatible-hits-norm</code>, <code>compatible-hits-norm</code> <var>boolean</var></dt><dd>With this option, Cufflinks counts only those fragments compatible with some reference transcript towards the number of mapped hits used in the FPKM denominator. This option can be combined with upper-quartile-norm. It is inactive by default, and can only be used in combination with --GTF. Use with either RABT or ab initio assembly is not supported [<strong>false</strong>]</dd>
+<dt><code>--num-importance-samples</code>, <code>num-importance-samples</code> <var>integer</var></dt><dd>Sets the number of importance samples generated for each locus during abundance estimation. Default: 1000 [<strong>100</strong>]</dd>
+<dt><code>--max-mle-iterations</code>, <code>max-mle-iterations</code> <var>integer</var></dt><dd>Sets the number of iterations allowed during maximum likelihood estimation of abundances. Default: 5000 [<strong>5000</strong>]</dd>
+<dt><code>--label</code>, <code>label</code> <var>string</var></dt><dd>Cufflinks will report transfrags in GTF format, with a prefix given by this option. The default prefix is 'CUFF'. [<strong>CUFF</strong>]</dd>
+<dt><code>--min-isoform-fraction</code>, <code>min-isoform-fraction</code> <var>float</var></dt><dd>After calculating isoform abundance for a gene, Cufflinks filters out transcripts that it believes are very low abundance, because isoforms expressed at extremely low levels often cannot reliably be assembled, and may even be artifacts of incompletely spliced precursors of processed transcripts. This parameter is also used to filter out introns that have far fewer spliced alignments supporting them. The default is 0.1, or 10% of the most abundant isoform (the major isoform) of the gene. [<strong>0.1</strong>]</dd>
+<dt><code>--pre-mrna-fraction</code>, <code>pre-mrna-fraction</code> <var>float</var></dt><dd>Some RNA-Seq protocols produce a significant amount of reads that originate from incompletely spliced transcripts, and these reads can confound the assembly of fully spliced mRNAs. Cufflinks uses this parameter to filter out alignments that lie within the intronic intervals implied by the spliced alignments. The minimum depth of coverage in the intronic region covered by the alignment is divided by the number of spliced reads, and if the result is lower than this parameter value, the intronic alignments are ignored. The default is 15%. [<strong>0.15</strong>]</dd>
+<dt><code>--max-intron-length</code>, <code>max-intron-length</code> <var>integer</var></dt><dd>The maximum intron length. Cufflinks will not report transcripts with introns longer than this, and will ignore SAM alignments with REF_SKIP CIGAR operations longer than this. The default is 300,000. [<strong>300000</strong>]</dd>
+<dt><code>--junc-alpha</code>, <code>junc-alpha</code> <var>float</var></dt><dd>The alpha value for the binomial test used during false positive spliced alignment filtration. Default: 0.001 [<strong>0.001</strong>]</dd>
+<dt><code>--small-anchor-fraction</code>, <code>small-anchor-fraction</code> <var>float</var></dt><dd>Spliced reads with less than this percent of their length on each side of the junction are considered suspicious and are candidates for filtering prior to assembly. Default: 0.09. [<strong>0.09</strong>]</dd>
+<dt><code>--min-frags-per-transfrag</code>, <code>min-frags-per-transfrag</code> <var>integer</var></dt><dd>Assembled transfrags supported by fewer than this many aligned RNA-Seq fragments are not reported. Default: 10. [<strong>10</strong>]</dd>
+<dt><code>--overhang-tolerance</code>, <code>overhang-tolerance</code> <var>integer</var></dt><dd>The number of bp allowed to enter the intron of a transcript when determining if a read or another transcript is mappable to/compatible with it. The default is 8 bp based on the default bowtie/TopHat parameters. [<strong>8</strong>]</dd>
+<dt><code>--max-bundle-length</code>, <code>max-bundle-length</code> <var>integer</var></dt><dd>Maximum genomic length allowed for a given bundle. The default is 3,500,000 bp. [<strong>3500000</strong>]</dd>
+<dt><code>--min-intron-length</code>, <code>min-intron-length</code> <var>integer</var></dt><dd>Minimum intron size allowed in genome. The default is 50 bp. [<strong>50</strong>]</dd>
+<dt><code>--trim-3-avgcov-thresh</code>, <code>trim-3-avgcov-thresh</code> <var>integer</var></dt><dd>Minimum average coverage required to attempt 3' trimming. The default is 10. [<strong>10</strong>]</dd>
+<dt><code>--trim-3-dropoff-frac</code>, <code>trim-3-dropoff-frac</code> <var>float</var></dt><dd>The fraction of average coverage below which to trim the 3' end of an assembled transcript. The default is 0.1. [<strong>0.1</strong>]</dd>
+<dt><code>--3-overhang-tolerance</code>, <code>overhang-tolerance-3</code> <var>integer</var></dt><dd>The number of bp allowed to overhang the 3' end of a reference transcript when determining if an assembled transcript should be merged with it (ie, the assembled transcript is not novel). The default is 600 bp. This option has an affect only when used in conjuction with GTF-guide. [<strong>600</strong>]</dd>
+<dt><code>--intron-overhang-tolerance</code>, <code>intron-overhang-tolerance</code> <var>integer</var></dt><dd>The number of bp allowed to enter the intron of a reference transcript when determining if an assembled transcript should be merged with it (ie, the assembled transcript is not novel). The default is 50 bp. This option has an affect only when used in conjuction with GTF-guide. [<strong>50</strong>]</dd>
+<dt><code>--no-faux-reads</code>, <code>no-faux-reads</code> <var>boolean</var></dt><dd>This option disables tiling of the reference transcripts with faux reads. Use this if you only want to use sequencing reads in assembly but do not want to output assembled transcripts that lay within reference transcripts. All reference transcripts in the input annotation will also be included in the output. This option has an affect only when used in conjuction with GTF-guide.</dd>
+<dt><code>--verbose</code>, <code>verbose</code> <var>boolean</var></dt><dd>Print lots of status updates and other diagnostic information.</dd>
+<dt><code>--quiet</code>, <code>quiet</code> <var>boolean</var></dt><dd>Suppress messages other than serious warnings and errors.</dd>
+<dt><code>--no-update-check</code>, <code>no-update-check</code> <var>boolean</var></dt><dd>Turns off the automatic routine that contacts the Cufflinks server to check for a more recent version.</dd>
+<dt><code>`,</code>assembled_isoforms` <var>filepath</var></dt><dd>This GTF file contains Cufflinks' assembled isoforms. The first 7 columns are standard GTF, and the last column contains attributes, some of which are also standardized ('gene_id', and 'transcript_id'). There one GTF record per row, and each record represents either a transcript or an exon within a transcript. The columns are defined at http://cufflinks.cbcb.umd.edu/manual.html#cufflinks [<strong>transcripts.gtf</strong>]</dd>
+<dt><code>`,</code>estimated_isoform_values` <var>filepath</var></dt><dd>This file contains the estimated isoform-level expression values in the generic FPKM Tracking Format. Note, however that as there is only one sample, the 'q' format is not used. [<strong>isoforms.fpkm_tracking</strong>]</dd>
+<dt><code>`,</code>estimated_gene_values` <var>filepath</var></dt><dd>This file contains the estimated gene-level expression values in the generic FPKM Tracking Format. Note, however that as there is only one sample, the 'q' format is not used. [<strong>genes.fpkm_tracking</strong>]</dd>
+</dl>
+
+
+
+  <ol class='man-decor man-foot man foot'>
+    <li class='tl'></li>
+    <li class='tc'>September 2011</li>
+    <li class='tr'>cufflinks(1)</li>
+  </ol>
+
+  </div>
+</body>
+</html>

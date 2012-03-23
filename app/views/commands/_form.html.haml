@@ -1,0 +1,36 @@
+= form_for @command, :html => {:multipart => true} do |f|
+	= f.error_messages
+	-#
+		%p
+			= f.label :alias
+			%br
+			= f.text_field :alias
+		%p
+			= f.label :path
+			%br
+			= f.text_field :path
+		%p
+			= f.label :description
+			%br
+			= f.text_area :description
+		%p
+			= f.label :module
+			%br
+			= f.text_field :module
+		%p
+			= f.label :name
+			%br
+			= f.text_field :name
+		%p
+			= f.label :version
+			%br
+			= f.text_field :version
+	%p
+		= f.label :path, "Absolute path of the command on the server"
+		%br
+		= f.text_field :path
+	%p
+		= f.label :xml_data, 'XML Definitions'
+		%br
+		= f.file_field :xml_data
+	%p= f.submit :class => 'submit'

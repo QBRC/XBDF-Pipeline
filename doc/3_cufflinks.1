@@ -1,0 +1,161 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "CUFFLINKS" "1" "September 2011" "" ""
+.
+.SH "NAME"
+\fBcufflinks\fR \- Cufflinks
+.
+.SH "DESCRIPTION"
+Cufflinks assembles transcripts, estimates their abundances, and tests for differential expression and regulation in RNA\-Seq samples\. It accepts aligned RNA\-Seq reads and assembles the alignments into a parsimonious set of transcripts\. Cufflinks then estimates the relative abundances of these transcripts based on how many reads support each one, taking into account biases in library preparation protocols\. Cufflinks is a collaborative effort between the Laboratory for Mathematical and Computational Biology, led by Lior Pachter at UC Berkeley, Steven Salzberg\'s group at the University of Maryland Center for Bioinformatics and Computational Biology, and Barbara Wold\'s lab at Caltech\. Cufflinks is provided under the OSI\-approved Boost License\. More information at http://cufflinks\.cbcb\.umd\.edu/
+.
+.SH "OPTIONS"
+.
+.TP
+\fB$1\fR, \fBaligned_reads\fR \fIfilepath\fR
+A file of RNA\-Seq read alignments in the SAM format\. SAM is a standard short read alignment, that allows aligners to attach custom tags to individual alignments, and Cufflinks requires that the alignments you supply have some of these tags\. Please see http://cufflinks\.cbcb\.umd\.edu/manual\.html#input for more details\. [****]
+.
+.TP
+\fB\-\-help\fR, \fBhelp\fR \fIboolean\fR
+Prints the help message and exits
+.
+.TP
+\fB\-\-num\-threads\fR, \fBnum\-threads\fR \fIint\fR
+Use this many threads to align reads\. The default is 1\. [\fB1\fR]
+.
+.TP
+\fB\-\-GTF\fR, \fBGTF\fR \fIfilepath\fR
+Tells Cufflinks to use the supplied reference annotation (a GFF file) to estimate isoform expression\. It will not assemble novel transcripts, and the program will ignore alignments not structurally compatible with any reference transcript\. Input is of the type [****]
+.
+.TP
+\fB\-\-GTF\-guide\fR, \fBGTF\-guide\fR \fIfilepath\fR
+Tells Cufflinks to use the supplied reference annotation (GFF) to guide RABT assembly\. Reference transcripts will be tiled with faux\-reads to provide additional information in assembly\. Output will include all reference transcripts as well as any novel genes and isoforms that are assembled\. [****]
+.
+.TP
+\fB\-\-mask\-file\fR, \fBmask\-file\fR \fIfilepath\fR
+Tells Cufflinks to ignore all reads that could have come from transcripts in this GTF file\. We recommend including any annotated rRNA, mitochondrial transcripts other abundant transcripts you wish to ignore in your analysis in this file\. Due to variable efficiency of mRNA enrichment methods and rRNA depletion kits, masking these transcripts often improves the overall robustness of transcript abundance estimates\.
+.
+.TP
+\fB\-\-frag\-bias\-correct\fR, \fBfrag\-bias\-correct\fR \fIfilepath\fR
+Providing Cufflinks with a multifasta file via this option instructs it to run our new bias detection and correction algorithm which can significantly improve accuracy of transcript abundance estimates\. See How Cufflinks Works for more details\. [****]
+.
+.TP
+\fB\-\-multi\-read\-correct\fR, \fBmulti\-read\-correct\fR \fIboolean\fR
+Tells Cufflinks to do an initial estimation procedure to more accurately weight reads mapping to multiple locations in the genome\. See How Cufflinks Works for more details\.
+.
+.TP
+\fB\-\-library\-type\fR, \fBlibrary\-type\fR \fIstring\fR
+TopHat will treat the reads as strand specific\. Every read alignment will have an XS attribute tag\. Consider supplying library type options below to select the correct RNA\-seq protocol\. fr\-unstranded: Standard Illumina\. Reads from the left\-most end of the fragment (in transcript coordinates) map to the transcript strand, and the right\-most end maps to the opposite strand\. fr\-firststrand: dUTP, NSR, NNSR\. Same as above except we enforce the rule that the right\-most end of the fragment (in transcript coordinates) is the first sequenced (or only sequenced for single\-end reads)\. Equivalently, it is assumed that only the strand generated during first strand synthesis is sequenced\. fr\-secondstrand: Ligation, Standard SOLiD\. Same as above except we enforce the rule that the left\-most end of the fragment (in transcript coordinates) is the first sequenced (or only sequenced for single\-end reads)\. Equivalently, it is assumed that only the strand generated during second strand synthesis is sequenced\. [****]
+.
+.TP
+\fB\-\-frag\-len\-mean\fR, \fBfrag\-len\-mean\fR \fIinteger\fR
+This is the expected (mean) fragment length\. The default is 200bp\. Note: Cufflinks now learns the fragment length mean for each SAM file, so using this option is no longer recommended with paired\-end reads\. [\fB200\fR]
+.
+.TP
+\fB\-\-frag\-len\-std\-dev\fR, \fBfrag\-len\-std\-dev\fR \fIinteger\fR
+The standard deviation for the distribution on fragment lengths\. The default is 80bp\. Note: Cufflinks now learns the fragment length standard deviation for each SAM file, so using this option is no longer recommended with paired\-end reads\. [\fB80\fR]
+.
+.TP
+\fB\-\-upper\-quartile\-norm\fR, \fBupper\-quartile\-norm\fR \fIboolean\fR
+With this option, Cufflinks normalizes by the upper quartile of the number of fragments mapping to individual loci instead of the total number of sequenced fragments\. This can improve robustness of differential expression calls for less abundant genes and transcripts\.
+.
+.TP
+\fB\-\-total\-hits\-norm\fR, \fBtotal\-hits\-norm\fR \fIboolean\fR
+With this option, Cufflinks counts all fragments, including those not compatible with any reference transcript, towards the number of mapped hits used in the FPKM denominator\. This option can be combined with \-N/\-\-upper\-quartile\-norm\. It is active by default\. [\fBtrue\fR]
+.
+.TP
+\fB\-\-compatible\-hits\-norm\fR, \fBcompatible\-hits\-norm\fR \fIboolean\fR
+With this option, Cufflinks counts only those fragments compatible with some reference transcript towards the number of mapped hits used in the FPKM denominator\. This option can be combined with upper\-quartile\-norm\. It is inactive by default, and can only be used in combination with \-\-GTF\. Use with either RABT or ab initio assembly is not supported [\fBfalse\fR]
+.
+.TP
+\fB\-\-num\-importance\-samples\fR, \fBnum\-importance\-samples\fR \fIinteger\fR
+Sets the number of importance samples generated for each locus during abundance estimation\. Default: 1000 [\fB100\fR]
+.
+.TP
+\fB\-\-max\-mle\-iterations\fR, \fBmax\-mle\-iterations\fR \fIinteger\fR
+Sets the number of iterations allowed during maximum likelihood estimation of abundances\. Default: 5000 [\fB5000\fR]
+.
+.TP
+\fB\-\-label\fR, \fBlabel\fR \fIstring\fR
+Cufflinks will report transfrags in GTF format, with a prefix given by this option\. The default prefix is \'CUFF\'\. [\fBCUFF\fR]
+.
+.TP
+\fB\-\-min\-isoform\-fraction\fR, \fBmin\-isoform\-fraction\fR \fIfloat\fR
+After calculating isoform abundance for a gene, Cufflinks filters out transcripts that it believes are very low abundance, because isoforms expressed at extremely low levels often cannot reliably be assembled, and may even be artifacts of incompletely spliced precursors of processed transcripts\. This parameter is also used to filter out introns that have far fewer spliced alignments supporting them\. The default is 0\.1, or 10% of the most abundant isoform (the major isoform) of the gene\. [\fB0\.1\fR]
+.
+.TP
+\fB\-\-pre\-mrna\-fraction\fR, \fBpre\-mrna\-fraction\fR \fIfloat\fR
+Some RNA\-Seq protocols produce a significant amount of reads that originate from incompletely spliced transcripts, and these reads can confound the assembly of fully spliced mRNAs\. Cufflinks uses this parameter to filter out alignments that lie within the intronic intervals implied by the spliced alignments\. The minimum depth of coverage in the intronic region covered by the alignment is divided by the number of spliced reads, and if the result is lower than this parameter value, the intronic alignments are ignored\. The default is 15%\. [\fB0\.15\fR]
+.
+.TP
+\fB\-\-max\-intron\-length\fR, \fBmax\-intron\-length\fR \fIinteger\fR
+The maximum intron length\. Cufflinks will not report transcripts with introns longer than this, and will ignore SAM alignments with REF_SKIP CIGAR operations longer than this\. The default is 300,000\. [\fB300000\fR]
+.
+.TP
+\fB\-\-junc\-alpha\fR, \fBjunc\-alpha\fR \fIfloat\fR
+The alpha value for the binomial test used during false positive spliced alignment filtration\. Default: 0\.001 [\fB0\.001\fR]
+.
+.TP
+\fB\-\-small\-anchor\-fraction\fR, \fBsmall\-anchor\-fraction\fR \fIfloat\fR
+Spliced reads with less than this percent of their length on each side of the junction are considered suspicious and are candidates for filtering prior to assembly\. Default: 0\.09\. [\fB0\.09\fR]
+.
+.TP
+\fB\-\-min\-frags\-per\-transfrag\fR, \fBmin\-frags\-per\-transfrag\fR \fIinteger\fR
+Assembled transfrags supported by fewer than this many aligned RNA\-Seq fragments are not reported\. Default: 10\. [\fB10\fR]
+.
+.TP
+\fB\-\-overhang\-tolerance\fR, \fBoverhang\-tolerance\fR \fIinteger\fR
+The number of bp allowed to enter the intron of a transcript when determining if a read or another transcript is mappable to/compatible with it\. The default is 8 bp based on the default bowtie/TopHat parameters\. [\fB8\fR]
+.
+.TP
+\fB\-\-max\-bundle\-length\fR, \fBmax\-bundle\-length\fR \fIinteger\fR
+Maximum genomic length allowed for a given bundle\. The default is 3,500,000 bp\. [\fB3500000\fR]
+.
+.TP
+\fB\-\-min\-intron\-length\fR, \fBmin\-intron\-length\fR \fIinteger\fR
+Minimum intron size allowed in genome\. The default is 50 bp\. [\fB50\fR]
+.
+.TP
+\fB\-\-trim\-3\-avgcov\-thresh\fR, \fBtrim\-3\-avgcov\-thresh\fR \fIinteger\fR
+Minimum average coverage required to attempt 3\' trimming\. The default is 10\. [\fB10\fR]
+.
+.TP
+\fB\-\-trim\-3\-dropoff\-frac\fR, \fBtrim\-3\-dropoff\-frac\fR \fIfloat\fR
+The fraction of average coverage below which to trim the 3\' end of an assembled transcript\. The default is 0\.1\. [\fB0\.1\fR]
+.
+.TP
+\fB\-\-3\-overhang\-tolerance\fR, \fBoverhang\-tolerance\-3\fR \fIinteger\fR
+The number of bp allowed to overhang the 3\' end of a reference transcript when determining if an assembled transcript should be merged with it (ie, the assembled transcript is not novel)\. The default is 600 bp\. This option has an affect only when used in conjuction with GTF\-guide\. [\fB600\fR]
+.
+.TP
+\fB\-\-intron\-overhang\-tolerance\fR, \fBintron\-overhang\-tolerance\fR \fIinteger\fR
+The number of bp allowed to enter the intron of a reference transcript when determining if an assembled transcript should be merged with it (ie, the assembled transcript is not novel)\. The default is 50 bp\. This option has an affect only when used in conjuction with GTF\-guide\. [\fB50\fR]
+.
+.TP
+\fB\-\-no\-faux\-reads\fR, \fBno\-faux\-reads\fR \fIboolean\fR
+This option disables tiling of the reference transcripts with faux reads\. Use this if you only want to use sequencing reads in assembly but do not want to output assembled transcripts that lay within reference transcripts\. All reference transcripts in the input annotation will also be included in the output\. This option has an affect only when used in conjuction with GTF\-guide\.
+.
+.TP
+\fB\-\-verbose\fR, \fBverbose\fR \fIboolean\fR
+Print lots of status updates and other diagnostic information\.
+.
+.TP
+\fB\-\-quiet\fR, \fBquiet\fR \fIboolean\fR
+Suppress messages other than serious warnings and errors\.
+.
+.TP
+\fB\-\-no\-update\-check\fR, \fBno\-update\-check\fR \fIboolean\fR
+Turns off the automatic routine that contacts the Cufflinks server to check for a more recent version\.
+.
+.TP
+\fB`,\fRassembled_isoforms` \fIfilepath\fR
+This GTF file contains Cufflinks\' assembled isoforms\. The first 7 columns are standard GTF, and the last column contains attributes, some of which are also standardized (\'gene_id\', and \'transcript_id\')\. There one GTF record per row, and each record represents either a transcript or an exon within a transcript\. The columns are defined at http://cufflinks\.cbcb\.umd\.edu/manual\.html#cufflinks [\fBtranscripts\.gtf\fR]
+.
+.TP
+\fB`,\fRestimated_isoform_values` \fIfilepath\fR
+This file contains the estimated isoform\-level expression values in the generic FPKM Tracking Format\. Note, however that as there is only one sample, the \'q\' format is not used\. [\fBisoforms\.fpkm_tracking\fR]
+.
+.TP
+\fB`,\fRestimated_gene_values` \fIfilepath\fR
+This file contains the estimated gene\-level expression values in the generic FPKM Tracking Format\. Note, however that as there is only one sample, the \'q\' format is not used\. [\fBgenes\.fpkm_tracking\fR]
+

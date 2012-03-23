@@ -1,0 +1,3 @@
+@runs.each do |run|
+	zip["runs/#{run.command.alias}_preferences_#{run.id}.xml"] = run.xml
+end

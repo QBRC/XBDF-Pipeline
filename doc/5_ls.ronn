@@ -1,0 +1,12 @@
+ls(1) -- List Directory Contents
+================================
+
+## DESCRIPTION
+
+  For each operand that names a file of a type other than directory, lsdisplays its name as well as any requested, associated information.  Foreach operand that names a file of type directory, ls displays the namesof files contained within that directory, as well as any requested, asso-ciated information.
+If no operands are given, the contents of the current directory are dis-played.  If more than one operand is given, non-directory operands aredisplayed first; directory and non-directory operands are sorted sepa-rately and in lexicographical order.
+
+## OPTIONS
+
+  * `-l`, `long_format` <boolean>:
+  List in long format. The following information is displayed foreach file: file mode, number of links, owner name, group name, number ofbytes in the file, abbreviated month, day-of-month file was last modi-fied, hour file last modified, minute file last modified, and the path-name.  In addition, for each directory whose contents are displayed, thetotal number of 512-byte blocks used by the files in the directory isdisplayed on a line by itself, immediately before the information for thefiles in the directory.  If the file or directory has extendedattributes, the permissions field printed by the -l option is followed bya '@' character.  Otherwise, if the file or directory has extended secu-rity information (such as an access control list), the permissions fieldprinted by the -l option is followed by a '+' character. [**false**]

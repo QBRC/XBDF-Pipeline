@@ -1,0 +1,48 @@
+%li
+	%h2{:class => run.torque_status}
+		=run.command.name
+		%span.status
+			-unless run.torque_status.nil?
+				=run.status
+			-else
+				press "start" to start this run
+		%span.torque_job_id{:style => 'display:none'}=run.torque_job_id if run.torque_job_id
+		%span.info
+			="runtime: " + distance_of_time_in_words(run.started_at, run.ended_at ? run.ended_at : Time.now) if run.started_at
+			=link_to "stop", stop_run_path(@job.id, run.id), {:confirm => 'Are you sure you want to stop this job?'} if run.running?
+			=#link_to "restart", restart_run_path(@job.id, run.id), {:confirm => 'Are you sure you want to stop this job?'} if run.finished?
+			=link_to "re-run", restart_run_path(@job, run), :confirm => 'Re-running a command may overwrite files. Are you sure you want to re-run this command?', :method => :delete if run.finished?
+			=link_to "xml", job_run_path(@job, run, :format => 'xml')
+			=link_to "delete", job_run_path(@job, run), :confirm => 'Are you sure? This job will continue running but it will be deleted from the pipeline.', :method => :delete
+	%span.title.command Command
+	.command_string=link_to run.command_string, edit_job_run_path(@job, run), :title => 'Click to edit'
+	-if run.stdout and !run.stdout.empty?
+		%span.title.output Output
+		.stdout
+			=run.stdout
+	
+	-if run.stderr and !run.stderr.empty?
+	
+		%span.title.error Errors 
+		.stderr
+			=run.stderr
+	=#link_to 'edit', edit_job_run_path(@job, run)
+	=#link_to "add command", {:controller => 'runs', :action => 'new', :job_id => @job.id, :waiting_on_run_id => -1, :command_id => 13}, {:class => 'add_command'}
+	-form_tag(new_job_run_path(@job), {:method => 'get', :class => 'autosubmit', :style => 'display:inline'}) do |f|
+		-# optgroups?
+		= hidden_field_tag 'job_id', @job.id
+		= hidden_field_tag 'waiting_on_run_id', run.id
+		=label_tag 'command_id', 'add dependent command:'
+		= select_tag "command_id", options_from_collection_for_select(Command.select("name, id"), "id", "name"), {:include_blank => true}
+		= submit_tag 'add'
+	
+	-unless run.files.empty?
+		%br
+		- run.files.each do |file|
+			-
+			=file
+			%br
+	
+	%ul
+		-child_runs.each do |child|
+			=render :partial => 'jobs/run', :locals => {:run => @runs.find(child.first), :runs => @runs, :job => @job, :child_runs => child.second}

@@ -1,0 +1,24 @@
+= link_to "New Command", new_command_path
+
+%br
+%br
+%br
+
+-for command in @commands
+  %h1= command.name
+  =# link_to "Show", command
+  = link_to "Edit", edit_command_path(command)
+  = link_to "Destroy", command, :confirm => 'Are you sure?', :method => :delete
+  %br
+  %p
+    =command.path
+  %p
+    / files:
+    / -files = ["#{command.alias}.xml", "#{command.alias}.xsd", "#{command.alias}_default_preferences.xml"]
+    / -files.each do |file|
+    /   = link_to file, :controller => 'commands', :action => 'download', :id => command.id
+    =link_to "Download all XML and docs", :controller => 'commands', :action => 'download', :id => command.id
+
+  %p
+    =command.description
+

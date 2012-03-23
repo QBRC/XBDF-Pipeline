@@ -1,0 +1,21 @@
+- title "Jobs"
+
+%table#jobs
+	%tr
+		%th Name
+		%th Runs
+		%th Age
+	- for job in @jobs
+		%tr
+			%td= link_to job.name, job
+			%td
+				-job.runs.each_with_index do |r,i|
+					= '| ' unless i == 0
+					%a{:class => r.torque_status, :href => job_url(job)}
+						=r.command.name if r.command and r.command.name
+			/ %td= link_to 'Edit', edit_job_path(job)
+			%td= time_ago_in_words job.created_at
+			%td= link_to 'Destroy', job, :confirm => 'Are you sure?', :method => :delete
+			%td= link_to 'Download', job_path(job, :format => 'zip')
+
+%p= link_to "New Job", new_job_path

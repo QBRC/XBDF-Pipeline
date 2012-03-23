@@ -1,0 +1,44 @@
+<% title "Command" %>
+
+<p>
+  <strong>Alias:</strong>
+  <%= @command.alias %>
+</p>
+<p>
+  <strong>Path:</strong>
+  <%= @command.path %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @command.description %>
+</p>
+<p>
+  <strong>Module:</strong>
+  <%= @command.module %>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%= @command.name %>
+</p>
+<p>
+  <strong>Version:</strong>
+  <%= @command.version %>
+</p>
+<p>
+  <strong>Xml Binary:</strong>
+  <%-# debug @command.xml_data %>
+</p>
+<p>
+  <strong>Xsd Binary:</strong>
+  <%-# @command.xsd_data %>
+</p>
+<p>
+  <strong>Default Xml Preferences Binary:</strong>
+  <%-# @command.default_xml_preferences_data %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_command_path(@command) %> |
+  <%= link_to "Destroy", @command, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", commands_path %>
+</p>

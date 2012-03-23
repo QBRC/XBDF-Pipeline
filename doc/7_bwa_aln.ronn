@@ -1,0 +1,50 @@
+bwa_aln(1) -- Burrows-Wheeler Aligner
+=====================================
+
+## DESCRIPTION
+
+  Find the SA coordinates of the input reads. Maximum maxSeedDiff differences are allowed in the first seedLen subsequence and maximum maxDiff differences are allowed in the whole sequence.
+
+## OPTIONS
+
+  * `-n`, `max_edit_distance` <float>:
+  Maximum edit distance if the value is integer, or the fraction of missing alignments given 2% uniform base error rate if FLOAT. In the latter case, the maximum edit distance is automatically chosen for different read lengths. [**0.04**]
+  * `-o`, `max_gap_opens` <integer>:
+  Maximum number of gap opens [**1**]
+  * `-e`, `max_gap_extensions` <integer>:
+  Maximum number of gap extensions, -1 for k-difference mode (disallowing long gaps) [**-1**]
+  * `-d`, `long_deletion_threshold` <integer>:
+  Disallow a long deletion within integer bp towards the 3'-end [**16**]
+  * `-i`, `indel_threshold` <integer>:
+  Disallow an indel within integer bp towards the ends [**5**]
+  * `-k`, `max_seed_edit_distance` <integer>:
+  Maximum edit distance in the seed [**2**]
+  * `-t`, `threads` <integer>:
+  Number of threads (multi-threading mode) [**1**]
+  * `-M`, `mismatch_penalty` <integer>:
+  BWA will not search for suboptimal hits with a score lower than (bestScore-misMsc). [**3**]
+  * `-O`, `gap_open_penalty` <integer>:
+  Gap open penalty [**11**]
+  * `-E`, `gap_extension_penalty` <integer>:
+  Gap extension penalty [**4**]
+  * `-R`, `suboptimal_alignment_threshold` <integer>:
+  Proceed with suboptimal alignments if there are no more than integer equally best hits. This option only affects paired-end mapping. Increasing this threshold helps to improve the pairing accuracy at the cost of speed, especially for short reads (~32bp). [**0**]
+  * `-c`, `reserve_no_complement_query` <boolean>:
+  Reverse query but not complement it, which is required for alignment in the color space.
+  * `-N`, `disable_iterative_search` <boolean>:
+  All hits with no more than maxDiff differences will be found. This mode is much slower than the default.
+  * `-B`, `barcode_length` <integer>:
+  Length of barcode starting from the 5'-end. When integer is positive, the barcode of each read will be trimmed before mapping and will be written at the BC SAM tag. For paired-end reads, the barcode from both ends are concatenated. [**0**]
+  * `-I`, `illumina_1_3_format` <boolean>:
+  The input is in the Illumina 1.3+ read format (quality equals ASCII-64).
+  * `-b`, `bam_format` <boolean>:
+  Specify the input read sequence file is the BAM format. For paired-end data, two ends in a pair must be grouped together and options -1 or -2 are usually applied to specify which end should be mapped. Typical command lines for mapping pair-end data in the BAM format are:
+bwa aln ref.fa -b1 reads.bam > 1.sai
+bwa aln ref.fa -b2 reads.bam > 2.sai
+bwa sampe ref.fa 1.sai 2.sai reads.bam reads.bam > aln.sam
+  * `-0`, `bam_single_end_reads` <boolean>:
+  When bam_format is specified, only use single-end reads in mapping.
+  * `-1`, `bam_first_read` <boolean>:
+  When bam_format is specified, only use the first read in a read pair in mapping (skip single-end reads and the second reads).
+  * `-2`, `bam_second_read` <boolean>:
+  When bam_format is specified, only use the second read in a read pair in mapping.

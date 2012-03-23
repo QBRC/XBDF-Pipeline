@@ -1,0 +1,27 @@
+= form_for [@job, @run], :html => {:class => 'run'} do |f|
+	=f.hidden_field :command_id
+	=f.hidden_field :waiting_on_run_id
+	
+	%table
+		- xml = @run.xml
+		-@command.xml.search("arg").each do |command|
+			-name = command[:name].to_s
+			-name_id = "xml[#{name}]"
+			-next if name.index('.')
+			-value = xml.at(name) ? xml.at(name).text : nil
+			-if (value.nil? or value=="") and command[:role] and @roles
+				-value = @roles[command[:role]]
+			-next unless command[:flag]
+		
+			%tr
+				%td.label
+					=label_tag name_id, name.titlecase + (command[:required] ? '*' : '')
+				%td
+					= render 'attribute', :command => command, :name_id => name_id, :value => value
+					=# render 'attribute', :locals => {:c => command}
+					-unless @run.errors[name].empty?
+						%span.error=@run.errors[name].first
+		%tr
+			%td
+			%td
+				= f.submit 'Save', {:class => 'submit'}

@@ -1,0 +1,118 @@
+tophat(1) -- TopHat
+===================
+
+## DESCRIPTION
+
+  TopHat is a program that aligns RNA-Seq reads to a genome in order to identify exon-exon splice junctions. It is built on the ultrafast short read mapping program Bowtie. TopHat runs on Linux and OS X. TopHat was designed to work with reads produced by the Illumina Genome Analyzer, although users have been successful in using TopHat with reads from other technologies. In TopHat 1.1.0, we began supporting Applied Biosystems' Colorspace format. The software is optimized for reads 75bp or longer.
+
+## OPTIONS
+
+  * `$1`, `reference_genome_filepath` <filepath>:
+  The location of the genome on the server. [****]
+  * `$2`, `reads_1` <filepath>:
+  A comma-separated list of files containing reads in FASTQ or FASTA format. When running TopHat with paired-end reads, this should be the *_1 ("left") set of files. [****]
+  * `$3`, `reads_2` <filepath>:
+  A comma-separated list of files containing reads in FASTA or FASTA format. Only used when running TopHat with paired end reads, and contains the *_2 ("right") set of files. The *_2 files MUST appear in the same order as the *_1 files. [****]
+  * `--help`, `help` <boolean>:
+  Prints the help message and exits [**false**]
+  * `--version`, `version` <boolean>:
+  Prints the TopHat version number and exits [**false**]
+  * `--mate-inner-dist`, `mate-inner-dist` <integer>:
+  This is the expected (mean) inner distance between mate pairs. For, example, for paired end runs with fragments selected at 300bp, where each end is 50bp, you should set -r to be 200. There is no default, and this parameter is required for paired end runs. [**200**]
+  * `--mate-std-dev`, `mate-std-dev` <integer>:
+  The standard deviation for the distribution on inner distances between mate pairs. [**20**]
+  * `--min-anchor-length`, `min-anchor-length` <integer>:
+  The 'anchor length'. TopHat will report junctions spanned by reads with at least this many bases on each side of the junction. Note that individual spliced alignments may span a junction with fewer than this many bases on one side. However, every junction involved in spliced alignments is supported by at least one read with this many bases on each side. This must be at least 3 and the default is 8. [**8**]
+  * `--splice-mismatches`, `splice-mismatches` <integer>:
+  The maximum number of mismatches that may appear in the 'anchor' region of a spliced alignment. The default is 0. [**0**]
+  * `--min-intron-length`, `min-intron-length` <integer>:
+  The minimum intron length. TopHat will ignore donor/acceptor pairs closer than this many bases apart. [**70**]
+  * `--max-intron-length`, `max-intron-length` <integer>:
+  The maximum intron length. When searching for junctions ab initio, TopHat will ignore donor/acceptor pairs farther than this many bases apart, except when such a pair is supported by a split segment alignment of a long read. [**500000**]
+  * `--max-insertion-length`, `max-insertion-length` <integer>:
+  The maximum insertion length. [**3**]
+  * `--max-deletion-length`, `max-deletion-length` <integer>:
+  The maximum deletion length. [**3**]
+  * `--solexa-quals`, `solexa-quals` <boolean>:
+  Use the Solexa scale for quality values in FASTQ files. [**false**]
+  * `--solexa1.3-quals`, `solexa1-3-quals` <boolean>:
+  As of the Illumina GA pipeline version 1.3, quality scores are encoded in Phred-scaled base-64. Use this option for FASTQ files from pipeline 1.3 or later. [**false**]
+  * `--quals`, `quals` <boolean>:
+  Separate quality value files - colorspace read files (CSFASTA) come with separate qual files. [**false**]
+  * `--integer-quals`, `integer-quals` <boolean>:
+  Quality values are space-delimited integer values, this becomes default when you specify -C. [**false**]
+  * `--color`, `color` <boolean>:
+  Colorspace reads, note that it uses a colorspace bowtie index and requires Bowtie 0.12.6 or higher. [**false**]
+  * `--min-isoform-fraction`, `min-isoform-fraction` <float>:
+  TopHat filters out junctions supported by too few alignments. Suppose a junction spanning two exons, is supported by S reads. Let the average depth of coverage of exon A be D, and assume that it is higher than B. If S / D is less than the minimum isoform fraction, the junction is not reported. A value of zero disables the filter. [**0.15**]
+  * `--num-threads`, `num-threads` <int>:
+  Use this many threads to align reads. [**1**]
+  * `--max-multihits`, `max-multihits` <int>:
+  Instructs TopHat to allow up to this many alignments to the reference for a given read, and suppresses all alignments for reads with more than this many alignments. The default is 20 for read mapping (and it uses two time larger number (40) for segment mapping). [**20**]
+  * `--no-closure-search`, `no-closure-search` <boolean>:
+  Disables the mate pair closure-based search for junctions. Currently, has no effect - closure search is off by default. [**false**]
+  * `--closure-search`, `closure-search` <boolean>:
+  Enables the mate pair closure-based search for junctions. Closure-based search should only be used when the expected inner distance between mates is small (<= 50bp) [**false**]
+  * `--no-coverage-search`, `no-coverage-search` <boolean>:
+  Disables the coverage based search for junctions. [**false**]
+  * `--coverage-search`, `coverage-search` <boolean>:
+  Enables the coverage based search for junctions. Use when coverage search is disabled by default (such as for reads 75bp or longer), for maximum sensitivity. [**false**]
+  * `--microexon-search`, `microexon-search` <boolean>:
+  With this option, the pipeline will attempt to find alignments incident to microexons. Works only for reads 50bp or longer. [**false**]
+  * `--butterfly-search`, `butterfly-search` <boolean>:
+  TopHat will use a slower but potentially more sensitive algorithm to find junctions in addition to its standard search. Consider using this if you expect that your experiment produced a lot of reads from pre-mRNA, that fall within the introns of your transcripts. [**false**]
+  * `--library-type`, `library-type` <string>:
+  TopHat will treat the reads as strand specific. Every read alignment will have an XS attribute tag. Consider supplying library type options below to select the correct RNA-seq protocol. 
+fr-unstranded: Standard Illumina. Reads from the left-most end of the fragment (in transcript coordinates) map to the transcript strand, and the right-most end maps to the opposite strand.
+fr-firststrand: dUTP, NSR, NNSR. Same as above except we enforce the rule that the right-most end of the fragment (in transcript coordinates) is the first sequenced (or only sequenced for single-end reads). Equivalently, it is assumed that only the strand generated during first strand synthesis is sequenced.
+fr-secondstrand: Ligation, Standard SOLiD. Same as above except we enforce the rule that the left-most end of the fragment (in transcript coordinates) is the first sequenced (or only sequenced for single-end reads). Equivalently, it is assumed that only the strand generated during second strand synthesis is sequenced. [****]
+  * `--initial-read-mismatches`, `initial-read-mismatches` <integer>:
+  Reads are initially mapped, allowing up to this many mismatches in each read alignment. [**2**]
+  * `--bowtie-n`, `bowtie-n` <boolean>:
+  TopHat uses '-v' in Bowtie for initial read mapping (the default), but with this option, '-n' is used instead. Read segments are always mapped using '-v' option. [**false**]
+  * `--segment-mismatches`, `segment-mismatches` <integer>:
+  Read segments are mapped independently, allowing up to this many mismatches in each segment alignment. [**2**]
+  * `--segment-length`, `segment-length` <integer>:
+  Each read is cut up into segments, each at least this long. These segments are mapped independently. [**25**]
+  * `--min-closure-exon`, `min-closure-exon` <integer>:
+  During closure search for paired end reads, exonic hops in the potential splice graph must be at least this long. [**50**]
+  * `--min-closure-intron`, `min-closure-intron` <integer>:
+  The minimum intron length that may be found during closure search. [**50**]
+  * `--max-closure-intron`, `max-closure-intron` <integer>:
+  The maximum intron length that may be found during closure search. [**5000**]
+  * `--min-coverage-intron`, `min-coverage-intron` <integer>:
+  The minimum intron length that may be found during coverage search. [**50**]
+  * `--max-coverage-intron`, `max-coverage-intron` <integer>:
+  The maximum intron length that may be found during coverage search. [**20000**]
+  * `--min-segment-intron`, `min-segment-intron` <integer>:
+  The minimum intron length that may be found during split-segment search. [**50**]
+  * `--max-segment-intron`, `max-segment-intron` <integer>:
+  The maximum intron length that may be found during split-segment search. [**500000**]
+  * `--keep-tmp`, `keep-tmp` <boolean>:
+  Causes TopHat to preserve its intermediate files produced during the run. By default, they are deleted upon exit. [**false**]
+  * `--no-sort-bam`, `no-sort-bam` <boolean>:
+  Output BAM is not coordinate-sorted. [**false**]
+  * `--no-convert-bam`, `no-convert-bam` <boolean>:
+  Do not convert to bam format. Output is <output_dir>/accepted_hit.sam. Implies no-sort-bam. [**false**]
+  * `--zpacker`, `zpacker` <string>:
+  manually specify the program used for compression of temporary files; default is gzip; use -z0 to disable compression altogether. Any program that is option-compatible with gzip can be used (e.g. bzip2, pigz, pbzip2). [**gzip**]
+  * `--GTF`, `GTF` <filepath>:
+  Supply TopHat with a list of gene model annotations. TopHat will use the exon records in this file to build a set of known splice junctions for each gene, and will attempt to align reads to these junctions even if they would not normally be covered by the initial mapping. [****]
+  * `--raw-juncs`, `raw-juncs` <filepath>:
+  Supply TopHat with a list of raw junctions. Junctions are specified one per line, in a tab-delimited format. Records look like: <chrom> <left> <right> <+/->  left and right are zero-based coordinates, and specify the last character of the left sequenced to be spliced to the first character of the right sequence, inclusive. [****]
+  * `--no-novel-juncs`, `no-novel-juncs` <boolean>:
+  Only look for reads across junctions indicated in the supplied GFF or junctions file. (ignored without -G/-j) [**false**]
+  * `--insertions`, `insertions` <filepath>:
+  Supply TopHat with a list of insertions with respect to the reference. Indels are specified one per line, in a tab-delimited format, identical to that of junctions. Records look like: <chrom> <left> <right> <+/-> left and right are zero-based coordinates, and specify the last character of the left sequenced to be spliced to the first character of the right sequence, inclusive. [****]
+  * `--deletions`, `deletions` <filepath>:
+  Supply TopHat with a list of deletions with respect to the reference. Indels are specified one per line, in a tab-delimited format, identical to that of junctions. Records look like: <chrom> <left> <right> <+/-> left and right are zero-based coordinates, and specify the last character of the left sequenced to be spliced to the first character of the right sequence, inclusive. [****]
+  * `--no-novel-indels`, `no-novel-indels` <boolean>:
+  Only look for reads across indels in the supplied indel file, or disable indel detection when no file has been provided. [**false**]
+  * ``, `accepted_hits_filename` <filepath>:
+  A list of read alignments in SAM format. SAM is a compact short read alignment format that is increasingly being adopted. The formal specification is here. [**tophat_out/accepted_hits.bam**]
+  * ``, `junctions_filename` <filepath>:
+  A UCSC BED track of junctions reported by TopHat. Each junction consists of two connected BED blocks, where each block is as long as the maximal overhang of any read spanning the junction. The score is the number of alignments spanning the junction. [**tophat_out/junctions.bed**]
+  * ``, `insertions_filename` <filepath>:
+  UCSC BED tracks of insertions and deletions reported by TopHat. Insertions.bed - chromLeft refers to the last genomic base before the insertion. [**tophat_out/insertions.bed**]
+  * ``, `deletions_filename` <filepath>:
+  UCSC BED tracks of insertions and deletions reported by TopHat. Deletions.bed - chromLeft refers to the first genomic base of the deletion. [**tophat_out/deletions.bed**]

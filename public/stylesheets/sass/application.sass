@@ -1,0 +1,318 @@
+html
+	background: white
+
+body
+	background: url('../images/background.jpg')
+	color: white
+	font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', FreeSans, sans-serif
+a
+	color: #ccc
+	&:hover
+		color: white
+
+em
+	font-weight: 200
+	font-style: italic
+
+p
+	margin:
+		top: 10px
+		bottom: 10px
+
+.clear
+	clear: both
+	height: 0
+	overflow: hidden
+
+.flash
+	display: block
+	position: absolute
+	bottom: 0
+	height: 55px
+	font-size: 15pt
+	width: 100%
+	background-color: #905055
+	-webkit-box-shadow: 0px 0px 5px 1px #000000
+	-moz-box-shadow: 0px 0px 5px 1px #000000
+	box-shadow: 0px 0px 5px 1px #000000
+	span
+		width: 75%
+		margin: 0 auto
+		padding: 10px
+		display: block
+
+#flash_notice
+	background-color: #555090
+
+.tooltip
+	display: none
+	background: black
+	border: 2px solid white
+	font-size: 14px
+	width: 400px
+	padding: 10px
+	color: #fff
+	-webkit-border-radius: 5px
+	-moz-border-radius: 5px
+	border-radius: 5px
+
+	
+#container
+	width: 75%
+	margin: 0 auto
+	padding-top: 20px
+	min-height: 500px
+	
+	h1#header
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6)
+		font-size: 25px
+		font-weight: 500
+		color: #eee
+		em
+			font-weight: 100
+		a
+			text-decoration: none
+	
+	h1
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6)
+		font-size: 50px
+		font-weight: 100
+		margin-bottom: 10px
+		display: inline
+	
+	h2
+		color: #B9CBD6
+		font-weight: 300
+		font-size: 24px
+		line-height: 26px
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6)
+		span
+			font-size: 14px
+			&.status
+				font-style: italic
+			&.info
+				float: right
+		
+	
+	h3
+		font-size: 21px
+		font-weight: bold
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)
+
+		em
+			font-style: normal
+			font-weight: 300
+
+	hr
+		border: 0
+		color: #578
+		background-color: #578
+		height: 1px
+		margin:
+			top: 20px
+			bottom: 20px
+
+	#camera
+		float: right
+
+#user_nav
+	float: right
+
+table#jobs td
+	padding-right: 5px
+
+li ul
+	border-left: 2px solid black
+	margin: 20px
+	margin-right: 0
+	padding-left: 10px
+
+.command_string a, .stdout, .stderr
+	text-decoration: none
+	color: green
+	background-color: black
+	display: block
+	font-size: 7pt
+	padding: 10px
+	margin-bottom: 10px
+	-moz-border-radius: 11px
+	-webkit-border-radius: 11px
+	border-radius: 11px
+	
+span.title
+	position: relative
+	top: 2px
+	left: 10px
+	font-size: 12pt
+	font-weight: 200
+	white-space: pre-wrap
+	&.command
+		color: black
+	&.output 
+		color: darken(white, 10%)
+	&.error
+		color: darken(red, 30%)
+		// text-shadow: 0px 0px 1px #ffffff
+		// filter: dropshadow(color=#ffffff, offx=0, offy=0)
+	
+.command_string a:hover
+	color: lighten(green, 30%)
+
+.stdout, .stderr
+	font-size: 9pt
+
+.stdout
+	color: black
+	background-color: darken(white, 10%)
+
+.stderr
+	color: white
+	background-color: darken(red, 10%)
+	
+
+	
+form
+	&#login
+		label, input
+			font-size: 13px
+			height: 25px
+			width: 150px
+		.submit
+			width: auto
+			height: auto
+			display: inline
+	label, input
+		font-size: 15px
+		height: 20px
+		font-weight: normal
+		display: inline
+	input, textarea
+		// padding:
+			// left: 12px
+		-moz-border-radius: 4px
+		-webkit-border-radius: 4px
+		border-radius: 4px
+		opacity: 1!important
+		color: #383838
+		margin-bottom: 10px
+		margin-left: 5px
+	input[type=text]
+		width: 500px
+	&.new_command, &.edit_command
+		label, input, textarea
+			width: 400px
+		.submit
+			width: auto
+			height: auto
+			display: inline
+		#organization_alias
+			width: 100px
+			font-size: 13px
+			height: auto
+			padding: 0
+	textarea
+		font-size: 15px
+		display: inline
+	.field_with_errors
+		display: inline
+		input, textarea
+			border: 3px solid red
+	.error
+		color: #C33
+		background: #FEF url(../images/error.png) no-repeat
+		background-position: center left
+		border: 1px dotted black	
+		padding: 3px 3px 3px 15px
+		-moz-border-radius: 3px
+		-webkit-border-radius: 3px
+		border-radius: 3px	
+
+.C
+	color: lighten(green, 10%)
+.Q
+	font-style: italic
+	font-weight: 200
+.R
+	font-weight: bold
+	background: url(../images/running.gif) no-repeat left
+	padding-left: 20px
+
+td.label
+	text-align: right
+	
+.submit, .button
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2)
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2)
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2)
+	// -webkit-appearance: push-button
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(1, #FFED66), color-stop(0.5, #FFAB23))
+	background-image: -moz-linear-gradient(center bottom, #FFED66 100%, #FFAB23 50%)
+	display: block
+	padding: 4px 8px
+	border: 1px solid #FA2
+	-webkit-border-radius: 5px
+	-moz-border-radius: 5px
+	border-radius: 5px
+	text-decoration: none
+	text-align: center
+	color: #333
+	text-shadow: 0 1px 0 #FE6
+	font: bold 16px 'Helvetica Neue', Arial, Sans-serif
+	cursor: pointer
+	width: auto
+	height: 30px
+
+	&:hover
+		background-image: -webkit-gradient(linear, left bottom, left top, color-stop(1, #FD6), color-stop(0.5, #FFAA22))
+		background-image: -moz-linear-gradient(center bottom, #FD6 100%, #FFAA22 50%)
+
+	&:active
+		background-image: -webkit-gradient(linear, left bottom, left top, color-stop(1, #FA6), color-stop(0.5, #FFAA22))
+		background-image: -moz-linear-gradient(center bottom, #FA6 100%, #FFAA22 50%)
+		text-shadow: 0 0 0
+
+.button
+	display: inline
+
+.gray
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(1, #eee), color-stop(0.5, #ccc))
+	background-image: -moz-linear-gradient(center bottom, #eee 100%, #ccc 50%)
+	border-color: #BBB #BBB #999
+	text-shadow: 0 1px #F0F0F0
+	&:hover
+		background-image: -webkit-gradient(linear, left bottom, left top, color-stop(1, #ddd), color-stop(0.5, #ccc))
+		background-image: -moz-linear-gradient(center bottom, #ddd 100%, #ccc 50%)
+
+	&:active
+		background-image: -webkit-gradient(linear, left bottom, left top, color-stop(1, #aaa), color-stop(0.5, #ccc))
+		background-image: -moz-linear-gradient(center bottom, #aaa 100%, #ccc 50%)
+		text-shadow: 0 0 0
+
+.small
+	font-size: 13px
+	height: 25px
+	width: 150px
+				
+.shadow
+	background: -webkit-gradient(linear,left top,left bottom,from(rgba(0, 0, 0, .4)),to(transparent))
+	width: 100%
+	height: 20px
+	margin-bottom: 20px
+		
+#footer
+	display: block
+	background-color: white
+	color: black
+	margin:
+		top: 20px
+		bottom: 40px
+	color: #666
+	font-size: 10pt
+	.content
+		margin: 0 auto
+		width: 70%
+		a
+			color: #437EA1
+			text-decoration: none
+			&:hover
+				text-decoration: underline

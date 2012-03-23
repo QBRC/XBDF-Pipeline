@@ -1,0 +1,39 @@
+- title "Run"
+
+%p
+  %strong Command:
+  = @run.command_id
+%p
+  %strong Job:
+  = @run.job_id
+%p
+  %strong Waiting On Run:
+  = @run.waiting_on_run_id
+%p
+  %strong Torque Job:
+  = @run.torque_job_id
+%p
+  %strong Xml Data:
+  = @run.xml_data
+%p
+  %strong Command String:
+  = @run.command_string
+%p
+  %strong Torque Status:
+  = @run.torque_status
+%p
+  %strong Cpu Time:
+  = @run.cpu_time
+%p
+  %strong Started At:
+  = @run.started_at
+%p
+  %strong Ended At:
+  = @run.ended_at
+
+%p
+  = link_to "Edit", edit_job_run_path(@job, @run)
+  |
+  = link_to "Destroy", job_run_path(@job, @run), :confirm => 'Are you sure?', :method => :delete
+  |
+  = link_to "View All", job_runs_path

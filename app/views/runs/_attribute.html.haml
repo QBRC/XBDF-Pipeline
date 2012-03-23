@@ -1,0 +1,28 @@
+-if command[:type] == 'boolean'
+	=check_box_tag name_id, 'true', value == 'true', :title => command[:description]
+	
+-elsif command[:type] == 'string'
+	-if command[:acceptedValues]
+		= select_tag name_id, options_for_select(command[:acceptedValues].split(",").map(&:strip), value), {:title=> command[:description]}
+	-else
+		= text_field_tag name_id, value, :title => command[:description], :placeholder => command[:default], :required => true #command[:required]		
+		
+-elsif command[:type] == 'filepath'
+	= text_field_tag name_id, value, :title => command[:description], :placeholder => (command[:placeholder] || '/absolute/path/to/file')
+	%a.browse{:href => '#'} browse
+	.fileTree.files{:target => name_id, :style => 'display:none'}
+	-#
+		%br
+		or
+		= file_field_tag name_id
+		
+-elsif %w(integer int).index command[:type]
+	=number_field_tag name_id, value, :title => command[:description], :placeholder => command[:default]
+	
+-elsif %w(float double).index command[:type]
+	%input{:id => name_id, :name => name_id, :type => 'decimal', :value => value, :title => command[:description]}
+	
+-else
+	=command[:type]
+	%br
+	=debug command

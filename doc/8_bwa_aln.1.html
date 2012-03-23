@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' value='text/html;charset=utf8'>
+  <meta name='generator' value='Ronn/v0.7.3 (http://github.com/rtomayko/ronn/tree/0.7.3)'>
+  <title>bwa_aln(1) - Burrows-Wheeler Aligner</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+</head>
+<!--
+  The following styles are deprecated and will be removed at some point:
+  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
+
+  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
+  .man-navigation should be used instead.
+-->
+<body id='manpage'>
+  <div class='mp' id='man'>
+
+  <div class='man-navigation' style='display:none'>
+    <a href="#NAME">NAME</a>
+    <a href="#DESCRIPTION">DESCRIPTION</a>
+    <a href="#OPTIONS">OPTIONS</a>
+  </div>
+
+  <ol class='man-decor man-head man head'>
+    <li class='tl'>bwa_aln(1)</li>
+    <li class='tc'></li>
+    <li class='tr'>bwa_aln(1)</li>
+  </ol>
+
+  <h2 id="NAME">NAME</h2>
+<p class="man-name">
+  <code>bwa_aln</code> - <span class="man-whatis">Burrows-Wheeler Aligner</span>
+</p>
+
+<h2 id="DESCRIPTION">DESCRIPTION</h2>
+
+<p>  With the improvement of sequencing techniques, chromatin immunoprecipitation followed by high throughput sequencing (ChIP-Seq) is getting popular to study genome-wide protein-DNA interactions. To address the lack of powerful ChIP-Seq analysis method, we present a novel algorithm, named Model-based Analysis of ChIP-Seq (MACS), for identifying transcript factor binding sites. MACS captures the influence of genome complexity to evaluate the significance of enriched ChIP regions, and MACS improves the spatial resolution of binding sites through combining the information of both sequencing tag position and orientation. MACS can be easily used for ChIP-Seq data alone, or with control sample with the increase of specificity.</p>
+
+<h2 id="OPTIONS">OPTIONS</h2>
+
+<dl>
+<dt><code>--version</code>, <code>version</code> <var>boolean</var></dt><dd>show program's version number and exit</dd>
+<dt><code>--help</code>, <code>help</code> <var>boolean</var></dt><dd>show this help message and exit.</dd>
+<dt><code>--treatment</code>, <code>chip-seq_treatment_files</code> <var>filepath</var></dt><dd>ChIP-seq treatment files. REQUIRED. When ELANDMULTIPET is selected, you must provide two files separated by comma</dd>
+<dt><code>--control</code>, <code>control_files</code> <var>filepath</var></dt><dd>Control files. When ELANDMULTIPET is selected, you must provide two files separated by comma</dd>
+<dt><code>--name=</code>, <code>name</code> <var>string</var></dt><dd>Experiment name, which will be used to generate output file names. [<strong>NA</strong>]</dd>
+<dt><code>--format=</code>, <code>format</code> <var>string</var></dt><dd>Format of tag file. The default AUTO option will let MACS decide which format the file is. Please check the definition in 00README file if you choose ELAND/ELANDMULTI/ELANDMULTIPET/ELANDEXPORT/SAM/BAM/BOWTIE. [<strong>AUTO</strong>]</dd>
+<dt><code>--petdist=</code>, <code>best_distance_between_paired-end_tags</code> <var>integer</var></dt><dd>Best distance between Pair-End Tags. Only available when format is 'ELANDMULTIPET'. [<strong>200</strong>]</dd>
+<dt><code>--gsize=</code>, <code>effective_genome_size</code> <var>string</var></dt><dd>Effective genome size. It can be 1.0e+9 or 1000000000, or shortcuts:'hs' for human (2.7e9), 'mm' for mouse (1.87e9), 'ce' for C. elegans (9e7) and 'dm' for fruitfly (1.2e8). [<strong>hs</strong>]</dd>
+<dt><code>--tsize=</code>, <code>tag_size</code> <var>string</var></dt><dd>Tag size. This will overide the auto detected tag size.</dd>
+<dt><code>--bw=</code>, <code>band_width</code> <var>integer</var></dt><dd>Band width. This value is only used while building the shifting model. [<strong>300</strong>]</dd>
+<dt><code>--pvalue=</code>, <code>pvalue_cutoff</code> <var>string</var></dt><dd>Pvalue cutoff for peak detection. [<strong>1e-5</strong>]</dd>
+<dt><code>--mfold</code>, <code>mfold</code> <var>string</var></dt><dd>Select the regions within MFOLD range of high-confidence enrichment ratio against background tobuild model. The regions must be lower than upperlimit, and higher than the lower limit. DEFAULT:10,30 [<strong>10,30</strong>]</dd>
+<dt><code>--nolambda</code>, <code>nolambda</code> <var>boolean</var></dt><dd>If True, MACS will use fixed background lambda aslocal lambda for every peak region. Normally, MACScalculates a dynamic local lambda to reflect the localbias due to potential chromatin structure. [<strong>false</strong>]</dd>
+<dt><code>--slocal</code>, <code>slocal</code> <var>integer</var></dt><dd>The small nearby region in basepairs to calculatedynamic lambda. This is used to capture the bias nearthe peak summit region. Invalid if there is no controldata. DEFAULT: 1000 [<strong>1000</strong>]</dd>
+<dt><code>--llocal</code>, <code>llocal</code> <var>integer</var></dt><dd>The large nearby region in basepairs to calculatedynamic lambda. This is used to capture the surroundbias. DEFAULT: 10000. [<strong>10000</strong>]</dd>
+<dt><code>--off-auto</code>, <code>off-auto</code> <var>boolean</var></dt><dd>Whether turn off the auto pair model process. If notset, when MACS failed to build paired model, it willuse the nomodel settings, the '--shiftsize' parameterto shift and extend each tags. DEFAULT: False [<strong>false</strong>]</dd>
+<dt><code>--nomodel</code>, <code>nomodel</code> <var>boolean</var></dt><dd>Whether or not to build the shifting model. If True,MACS will not build model. by default it meansshifting size = 100, try to set shiftsize to changeit. DEFAULT: False [<strong>false</strong>]</dd>
+<dt><code>--shiftsize</code>, <code>shiftsize</code> <var>integer</var></dt><dd>The arbitrary shift size in bp. When nomodel is true,MACS will use this value as 1/2 of fragment size.DEFAULT: 100 [<strong>100</strong>]</dd>
+<dt><code>--keep-dup</code>, <code>keep-dup</code> <var>string</var></dt><dd>It controls the MACS behavior towards duplicate tagsat the exact same location -- the same coordinationand the same strand. The default 'auto' option makesMACS calculate the maximum tags at the exact samelocation based on binomal distribution using 1e-5 aspvalue cutoff; and the 'all' option keeps every tags.If an integer is given, at most this number of tagswill be kept at the same location. Default: auto [<strong>auto</strong>]</dd>
+<dt><code>--to-small</code>, <code>to-small</code> <var>boolean</var></dt><dd>When set, scale the larger dataset down to the smallerdataset, by default, the smaller dataset will bescaled towards the larger dataset. DEFAULT: False [<strong>false</strong>]</dd>
+<dt><code>--wig</code>, <code>wig</code> <var>boolean</var></dt><dd>Whether or not to save extended fragment pileup atevery WIGEXTEND bps into a wiggle file. When --single-profile is on, only one file for the whole genome issaved. WARNING: this process is time/space consuming!! [<strong>false</strong>]</dd>
+<dt><code>--bdg</code>, <code>bdg</code> <var>boolean</var></dt><dd>Whether or not to save extended fragment pileup atevery bp into a bedGraph file. When it's on, -w,--space and --call-subpeaks will be ignored. When--single-profile is on, only one file for the wholegenome is saved. WARNING: this process is time/spaceconsuming!! [<strong>false</strong>]</dd>
+<dt><code>--single-profile</code>, <code>single-profile</code> <var>boolean</var></dt><dd>When set, a single wiggle file will be saved fortreatment and input. Default: False [<strong>false</strong>]</dd>
+<dt><code>--space</code>, <code>space</code> <var>integer</var></dt><dd>The resoluation for saving wiggle files, by default,MACS will save the raw tag count every 10 bps. Usableonly with '--wig' option. [<strong>10</strong>]</dd>
+<dt><code>--call-subpeaks</code>, <code>call-subpeaks</code> <var>boolean</var></dt><dd>If set, MACS will invoke Mali Salmon's PeakSplittersoft through system call. If PeakSplitter can't befound, an instruction will be shown for downloadingand installing the PeakSplitter package. -w optionneeds to be on and -B should be off to let it work.DEFAULT: False [<strong>false</strong>]</dd>
+<dt><code>--verbose</code>, <code>verbose</code> <var>integer</var></dt><dd>Set verbose level. 0: only show critical message, 1:show additional warning message, 2: show processinformation, 3: show debug messages. DEFAULT:2 [<strong>2</strong>]</dd>
+<dt><code>--diag</code>, <code>diag</code> <var>boolean</var></dt><dd>Whether or not to produce a diagnosis report. It's upto 9X time consuming. Please check 00README file fordetail. DEFAULT: False [<strong>false</strong>]</dd>
+<dt><code>--fe-min</code>, <code>fe-min</code> <var>integer</var></dt><dd>For diagnostics, min fold enrichment to consider.DEFAULT: 0 [<strong>0</strong>]</dd>
+<dt><code>--fe-max</code>, <code>fe-max</code> <var>string</var></dt><dd>For diagnostics, max fold enrichment to consider.DEFAULT: maximum fold enrichment</dd>
+<dt><code>--fe-step</code>, <code>fe-step</code> <var>integer</var></dt><dd>For diagnostics, fold enrichment step.  DEFAULT: 20 [<strong>20</strong>]</dd>
+</dl>
+
+
+
+  <ol class='man-decor man-foot man foot'>
+    <li class='tl'></li>
+    <li class='tc'>September 2011</li>
+    <li class='tr'>bwa_aln(1)</li>
+  </ol>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+one:
+  alias: MyString
+  path: MyString
+  description: MyText
+  module: MyString
+  name: MyString
+  version: MyString
+  xml_binary: 
+  xsd_binary: 
+  default_xml_preferences_binary: 
+
+two:
+  alias: MyString
+  path: MyString
+  description: MyText
+  module: MyString
+  name: MyString
+  version: MyString
+  xml_binary: 
+  xsd_binary: 
+  default_xml_preferences_binary: 
