@@ -3,9 +3,9 @@ class Job < ActiveRecord::Base
   
   belongs_to :user
   has_many :runs, :dependent => :destroy
-  
+  after_create :create_folder 
   # DEPRECATION WARNING: Base#after_create has been deprecated, please use Base.after_create :method instead. (called from <class:Job> at /Users/cgenco/Dropbox/School_11-12/UTSW/pipeline/app/models/job.rb:7)
-  def after_create
+  def create_folder
     Dir.mkdir path
   end
   

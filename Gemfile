@@ -1,10 +1,8 @@
-# /opt/local/tophat/tophat.sh
-
 source 'http://rubygems.org'
 source "http://gems.github.com"
 
 gem 'rails' #, '3.0.9'
-require 'rake/dsl_definition'
+#require 'rake/dsl_definition'
 gem 'rake', '0.9.2'
 
 
@@ -16,8 +14,8 @@ gem 'rake', '0.9.2'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 # gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
-gem 'sqlite3-ruby'
-# gem 'mysql'
+# gem 'sqlite3-ruby'
+gem 'mysql2'
 
 gem 'nokogiri'
 
@@ -31,13 +29,11 @@ gem "jquery-rails"
 # rails g nifty:authentication
 gem "devise" #, :git => 'git://github.com/plataformatec/devise.git'
 
-# gem "rubyzip", :require => 'zip/zip'
 gem "zippy"
 
 # documentation in html and manpage format
 # https://github.com/rtomayko/ronn
 gem "ronn", "~> 0.7.3"
-
 
 # Gem for generating the /admin side
 # rails g active_admin:install

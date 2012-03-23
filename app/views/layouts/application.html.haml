@@ -28,7 +28,7 @@
 							= submit_tag "Sign in/Register", :class => 'submit'
 			%h1#header
 				%a{:href => root_path}			
-					QBRI 
+					QBRC 
 					%em pipeline server
 			.clear
 			
@@ -46,4 +46,10 @@
 					%span{:style => 'color: green'} Daemon running (pid##{@daemon_pid})
 				-else
 					%span{:style => 'color: red; font-weight: bold'} DAEMON STOPPED
-					Restart daemon with: /home/pipeline/rails_server/lib/daemons/job_monitor_ctl restart
+					Restart daemon with: 
+					%br
+					sudo #{Rails.root}/lib/daemons/job_monitor_ctl restart
+					%br
+					Having problems? Try running the ruby file manually and checking for errors in the output:
+					%br
+					sudo ruby #{Rails.root}/lib/daemons/job_monitor.rb

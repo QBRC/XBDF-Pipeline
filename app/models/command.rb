@@ -59,6 +59,7 @@ class Command < ActiveRecord::Base
     
     output_filename = "doc/#{id}_#{alias_name}.ronn"
     file = File.new(output_filename, 'w')
+    #file.chown(0,0)
     file.puts title
     file.puts '='*title.length
     file.puts

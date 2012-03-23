@@ -5,7 +5,7 @@
 
 
 def qstatus job_id = ""
-  output = %x[/opt/torque/bin/qstat #{job_id}].split("\n")
+  output = %x[/usr/bin/qstat #{job_id}].split("\n")
   
   # if the job is gone, assume it finished correctly
   return 'C' if output.empty?
@@ -41,19 +41,19 @@ def torque_script(run)
   script=<<-END
 #!/bin/bash
 #PBS -q pipeline
-#PBS -l nodes=1:ppn=4
 #PBS -d #{run.path}
+#PBS -P ec2-user:ec2-user
 
 export PATH=$PATH:#{run.command.path_directory}
 export PLUGIN_DIRECTORY=#{run.command.plugin_directory}
 
-export PL_BOWTIE_DIR=/home/pipeline/plugins/bowtie/
+export PL_BOWTIE_DIR=/opt/local/bowtie/
 
 #{run.command_string}
   END
 end
 
-def puts str
+def putss str
   Rails.logger.info "job_monitor.rb: #{str}"
 end
 
@@ -65,7 +65,7 @@ end
 
 while($running) do
   Rails.logger.auto_flushing = true
-  puts "looping"
+  #puts "looping"
   
   # submit runs ready to run
   Run.ready_to_run.each{|run|
@@ -81,7 +81,7 @@ while($running) do
     File.open(script_path, 'w'){|f| f.write script}
     
     # "Command".h1
-    puts command = "/opt/torque/bin/qsub -e #{run.path} #{script_path}"
+    puts command = "/usr/bin/qsub -e #{run.path} #{script_path}"
     
     # "Torque Output".h1
     torque_job_id = %x[#{command}]
@@ -96,7 +96,7 @@ while($running) do
   
   Run.to_delete.each do |run|
     puts "stopping run##{run.id}"
-    %x[/opt/torque/bin/qdel #{run.torque_job_id}]
+    %x[/usr/bin/qdel #{run.torque_job_id}]
     run.torque_status = nil
     run.started_at = nil
     run.ended_at = nil
@@ -123,6 +123,6 @@ while($running) do
   
   # $running = false
   time_to_sleep = 5
-  puts "sleeping #{time_to_sleep} seconds"
+  #puts "sleeping #{time_to_sleep} seconds"
   sleep time_to_sleep
 end

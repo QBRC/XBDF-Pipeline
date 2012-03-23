@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(:version => 20110722185712) do
     t.integer  "waiting_on_run_id"
     t.integer  "torque_job_id"
     t.text     "xml_data"
-    t.text     "command_string",    :limit => 255
+    t.text     "command_string"
     t.string   "torque_status",     :limit => 1
     t.integer  "cpu_time"
     t.datetime "started_at"
@@ -99,15 +99,6 @@ ActiveRecord::Schema.define(:version => 20110722185712) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "mark_for_deletion"
-  end
-
-  create_table "students", :force => true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "smu_email"
-    t.string   "smu_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|

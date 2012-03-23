@@ -4,27 +4,27 @@
 .clear
 
 -if @runs.empty?
-	=#link_to "add command", {:controller => 'runs', :action => 'new', :job_id => @job.id, :waiting_on_run_id => -1, :command_id => 13}, {:class => 'add_command'}
-	-form_tag(new_job_run_path(@job), {:method => 'get', :class => 'autosubmit'}) do |f|
-		-# optgroups?
-		= hidden_field_tag 'job_id', @job.id
-		=# hidden_field_tag 'waiting_on_run_id', -1
-		=label_tag 'command_id', 'add command:'
-		= select_tag "command_id", options_from_collection_for_select(Command.select("name, id"), "id", "name"), {:include_blank => true}
-		= submit_tag 'add'
-		
+        =#link_to "add command", {:controller => 'runs', :action => 'new', :job_id => @job.id, :waiting_on_run_id => -1, :command_id => 13}, {:class => 'add_command'}
+        =form_tag(new_job_run_path(@job), {:method => 'get', :class => 'autosubmit'}) do |f|
+                -# optgroups?
+                = hidden_field_tag 'job_id', @job.id
+                =# hidden_field_tag 'waiting_on_run_id', -1
+                =label_tag 'command_id', 'add command:'
+                = select_tag "command_id", options_from_collection_for_select(Command.select("name, id"), "id", "name"), {:include_blank => true}
+                = submit_tag 'add'
+
 -else
-	%ul
-		- @nested_run_ids.each do |child|
-			=render :partial => 'jobs/run', :locals => {:run => @runs.find(child.first), :runs => @runs, :job => @job, :child_runs => child.second}
+        %ul
+                - @nested_run_ids.each do |child|
+                        =render :partial => 'jobs/run', :locals => {:run => @runs.find(child.first), :runs => @runs, :job => @job, :child_runs => child.second}
 
 
 
 %br
 %br
 %p
-	= link_to "Edit Job Name", edit_job_path(@job)
-	|
-	= link_to "Destroy Job", @job, :confirm => 'Are you sure?', :method => :delete
-	|
-	= link_to "View All Jobs", jobs_path
+        = link_to "Edit Job Name", edit_job_path(@job)
+        |
+        = link_to "Destroy Job", @job, :confirm => 'Are you sure?', :method => :delete
+        |
+        = link_to "View All Jobs", jobs_path
