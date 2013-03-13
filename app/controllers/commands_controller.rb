@@ -28,7 +28,7 @@ class CommandsController < ApplicationController
       z.put_next_entry(@command.alias + "_defaults.xml")
       z.puts @command.default_xml_preferences_data
     end
-    send_file t.path, :type => 'application/zip', :disposition => 'attachment', :filename => file_name
+    send_data data, :type => 'application/zip', :disposition => 'attachment', :filename => file_name
     t.close
   end
 
